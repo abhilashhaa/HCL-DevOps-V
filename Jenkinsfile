@@ -6,6 +6,20 @@ node()
 {
 stage('Prepare')
 	      
+
+            
+     stage('DeployCommit') 
+    gctsDeploy(
+  script: this,
+  host: 'https://hclutl1909.hcldigilabs.com:8001',
+  abapCredentialsId: 'ABAPUserPasswordCredentialsId',
+  repository: 'HCL-DevOps-V',
+  remoteRepositoryURL: "https://github.com/abhilashhaa/HCL-DevOps-V1.git",
+  role: 'TARGET',
+  vSID: 'FEF',
+  rollback: 'false'
+	    )
+	
 stage('RunUnitTest') 
     gctsExecuteABAPUnitTests(
       script: this,
@@ -31,40 +45,8 @@ stage('RunUnitTest')
 }
 	}
 	
-	stage('CreateRepository')
-  gctsCreateRepository(
-  script: this,
-  host: 'https://hclutl1909.hcldigilabs.com:8001',
-  client: '200',
-  abapCredentialsId: 'ABAPUserPasswordCredentialsId',
-  repository: 'HCL-DevOps-V',
-  remoteRepositoryURL: 'https://github.com/abhilashhaa/HCL-DevOps-V1.git',
-  role: 'TARGET',
-  vSID: 'FEF'
-  )
-  
-  
-  stage('CloneRepository')
-  
-  gctsCloneRepository(
-  script: this,
-  host: 'https://hclutl1909.hcldigilabs.com:8001',
-  client: '200',
-  abapCredentialsId: 'ABAPUserPasswordCredentialsId',
-  repository: 'HCL-DevOps-V'
-)
-            
-     stage('DeployCommit') 
-    gctsDeploy(
-  script: this,
-  host: 'https://hclutl1909.hcldigilabs.com:8001',
-  abapCredentialsId: 'ABAPUserPasswordCredentialsId',
-  repository: 'HCL-DevOps-V',
-  remoteRepositoryURL: "https://github.com/abhilashhaa/HCL-DevOps-V1.git",
-  role: 'TARGET',
-  vSID: 'FEF',
-  rollback: 'false'
-	    )
+	stage('Cleanup')
+	
    
 
 }
